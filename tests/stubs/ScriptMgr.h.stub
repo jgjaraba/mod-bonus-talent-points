@@ -1,0 +1,30 @@
+#pragma once
+#include "Player.h"
+#include <cstdint>
+#include <vector>
+#include <initializer_list>
+using uint16 = std::uint16_t;
+enum PlayerHook {
+ PLAYERHOOK_ON_CALCULATE_TALENTS_POINTS, PLAYERHOOK_ON_LOGIN, PLAYERHOOK_ON_MAP_CHANGED,
+ PLAYERHOOK_ON_LEVEL_CHANGED, PLAYERHOOK_ON_AFTER_SPEC_SLOT_CHANGED
+};
+enum WorldHook { WORLDHOOK_ON_AFTER_CONFIG_LOAD, WORLDHOOK_ON_STARTUP };
+class PlayerScript {
+public:
+    PlayerScript(char const*, std::initializer_list<uint16>) { all.push_back(this); }
+    virtual ~PlayerScript() = default;
+    virtual void OnPlayerCalculateTalentsPoints(Player const*, uint32&) {}
+    virtual void OnPlayerLogin(Player*) {}
+    virtual void OnPlayerMapChanged(Player*) {}
+    virtual void OnPlayerLevelChanged(Player*, uint8) {}
+    virtual void OnPlayerAfterSpecSlotChanged(Player*, uint8) {}
+    static std::vector<PlayerScript*> all;
+};
+class WorldScript {
+public:
+    WorldScript(char const*, std::initializer_list<uint16>) { all.push_back(this); }
+    virtual ~WorldScript() = default;
+    virtual void OnAfterConfigLoad(bool) {}
+    virtual void OnStartup() {}
+    static std::vector<WorldScript*> all;
+};

@@ -1,0 +1,12 @@
+#pragma once
+#include <cstdint>
+#include <map>
+using uint32 = std::uint32_t;
+struct GossipMenuItems { uint32 MenuID; uint32 OptionID; uint32 OptionType; uint32 BoxMoney; };
+using GossipMenuItemsContainer = std::multimap<uint32,GossipMenuItems>;
+using GossipMenuItemsMapBounds = std::pair<GossipMenuItemsContainer::const_iterator,GossipMenuItemsContainer::const_iterator>;
+struct ObjectMgr {
+    GossipMenuItemsContainer rows;
+    GossipMenuItemsMapBounds GetGossipMenuItemsMapBounds(uint32 menuId) const { return rows.equal_range(menuId); }
+};
+extern ObjectMgr* sObjectMgr;

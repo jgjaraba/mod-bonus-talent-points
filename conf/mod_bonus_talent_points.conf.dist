@@ -1,0 +1,58 @@
+# mod-bonus-talent-points | AzerothCore 3.3.5a
+# Copy/enable this .conf.dist through the normal AzerothCore installation.
+
+# 1 = enable; 0 = disable. This module does not persist extra points in SQL.
+BonusTalentPoints.Enable = 1
+
+# Reached levels at which characters gain ONE ADDITIONAL point on top
+# of their normal one-per-level. Comma-separated integers 10..255.
+# At default values, characters have 61 points at 60 and 81 at 80.
+BonusTalentPoints.Levels = "15,20,25,30,35,40,45,50,55,60"
+
+# Bonus per milestone. Default: 1. Allowed range: 0..10.
+BonusTalentPoints.PointsPerMilestone = 1
+
+# DK starter experience on map 609 (Acherus):
+# 1 = do not award bonus points while there; award when leaving the map
+#     (at level 55+, retroactively for all earlier milestones).
+# 0 = award bonus points even during the introductory quests.
+BonusTalentPoints.DeferDeathKnightStarterBonus = 1
+
+# ===========================================================================
+# GLYPH UNLOCKS  (six independent slot unlock levels)
+# ===========================================================================
+# 1 = use custom unlocks; 0 = vanilla AzerothCore unlocks.
+GlyphUnlocks.Enable = 1
+
+# The original WotLK thresholds (defaults) are preserved on installation.
+# Slots are indexed by PLAYER_GLYPHS_ENABLED bits, NOT by display order.
+# Levels 1..255; the client may retain original tooltips for locked slots.
+GlyphUnlocks.Major1.Level = 15
+GlyphUnlocks.Minor1.Level = 15
+GlyphUnlocks.Minor2.Level = 50
+GlyphUnlocks.Major2.Level = 30
+GlyphUnlocks.Minor3.Level = 70
+GlyphUnlocks.Major3.Level = 80
+
+# IMPORTANT when moving unlocks to HIGHER levels for existing characters:
+# 1 = permanently remove occupied glyphs in now-locked slots when their spec
+#     is activated (and remove the matching glyph aura); no item refund.
+# 0 = leave existing glyphs installed; may retain effects while slot is locked.
+# Lowering unlock levels (the usual customization) is nondestructive.
+GlyphUnlocks.ClearLockedGlyphs = 1
+
+# ===========================================================================
+# DUAL SPECIALIZATION  (unmodified trainer gossip flow)
+# ===========================================================================
+# 1 = override both minimum level and gossip purchase price;
+# 0 = let worldserver.conf:MinDualSpecLevel and DB BoxMoney prevail.
+DualSpec.Enable = 1
+
+# Vanilla WotLK 3.3.5a values: level 40, 1000 gold.
+# MinLevel accepts 1..255.
+DualSpec.MinLevel = 40
+
+# Whole gold, 0 = free. Allowed 0..214748 gold (int32 copper safety).
+# The module changes the price of normal trainer dual-spec options
+# (OptionType=18) in ObjectMgr memory only, never the world database.
+DualSpec.CostGold = 1000

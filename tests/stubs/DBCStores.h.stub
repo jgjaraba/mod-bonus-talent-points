@@ -1,0 +1,10 @@
+#pragma once
+#include "Player.h"
+struct GlyphPropertiesEntry { uint32 SpellId; };
+struct GlyphStore {
+    GlyphPropertiesEntry const* LookupEntry(uint32 id) const {
+        static GlyphPropertiesEntry sample {4567};
+        return id==123 ? &sample : nullptr;
+    }
+};
+extern GlyphStore sGlyphPropertiesStore;

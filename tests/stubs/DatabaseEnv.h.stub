@@ -1,0 +1,20 @@
+#pragma once
+#include <cstdint>
+#include <memory>
+#include <utility>
+#include <vector>
+using uint32 = std::uint32_t;
+struct Field {
+    uint32 value;
+    template<typename T> T Get() const { return static_cast<T>(value); }
+};
+struct QueryStub {
+    std::vector<std::pair<uint32,uint32>> source {{0,16},{42,7}};
+    std::size_t index = 0;
+    Field columns[2]{};
+    Field* Fetch() { columns[0] = {source[index].first}; columns[1] = {source[index].second}; return columns; }
+    bool NextRow() { ++index; return index < source.size(); }
+};
+using QueryResult = std::shared_ptr<QueryStub>;
+struct DatabaseStub { QueryResult Query(char const*) const { return std::make_shared<QueryStub>(); } };
+extern DatabaseStub WorldDatabase;

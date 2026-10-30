@@ -1,0 +1,29 @@
+#pragma once
+#include <array>
+#include <cstdint>
+#include <vector>
+using uint8 = std::uint8_t;
+using uint32 = std::uint32_t;
+constexpr uint8 CLASS_DEATH_KNIGHT = 6;
+constexpr uint32 PLAYER_GLYPHS_ENABLED = 999;
+class Player {
+public:
+    Player(uint32 level, uint8 cl = 1, uint32 mapId = 0) : level_(level), cl_(cl), mapId_(mapId) {}
+    uint32 GetLevel() const { return level_; }
+    uint8 getClass() const { return cl_; }
+    uint32 GetMapId() const { return mapId_; }
+    void InitTalentForLevel() { ++recalculations; }
+    void SetLevel(uint32 level) { level_ = level; }
+    void SetMapId(uint32 mapId) { mapId_ = mapId; }
+    uint32 GetGlyph(uint8 slot) const { return glyphs.at(slot); }
+    void SetGlyph(uint8 slot, uint32 glyph, bool save) { glyphs.at(slot) = glyph; glyphSaveCalls += save; }
+    void RemoveAurasDueToSpell(uint32 id) { removedAuras.push_back(id); }
+    void SetUInt32Value(uint32 field, uint32 value) { if (field == PLAYER_GLYPHS_ENABLED) glyphMask = value; }
+    uint32 recalculations = 0;
+    uint32 glyphSaveCalls = 0;
+    uint32 glyphMask = 0;
+    std::array<uint32,6> glyphs {{0,0,0,0,0,0}};
+    std::vector<uint32> removedAuras;
+private:
+    uint32 level_; uint8 cl_; uint32 mapId_;
+};

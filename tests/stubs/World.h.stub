@@ -1,0 +1,9 @@
+#pragma once
+#include <cstdint>
+using uint32 = std::uint32_t;
+enum WorldIntConfigs { CONFIG_MIN_DUALSPEC_LEVEL };
+struct World {
+    void setIntConfig(WorldIntConfigs, uint32 v) { minimumDualSpecLevel = v; }
+    uint32 minimumDualSpecLevel = 40;
+};
+extern World* sWorld;

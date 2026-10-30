@@ -1,0 +1,20 @@
+#pragma once
+#include <map>
+#include <string>
+#include <sstream>
+struct ConfigMgr {
+    static ConfigMgr* instance();
+    std::map<std::string,std::string> options;
+    template<typename T> T GetOption(std::string const& key, T const& fallback) const {
+        auto it=options.find(key);
+        if (it == options.end()) return fallback;
+        T value{};
+        std::istringstream in(it->second);
+        if (!(in >> value)) return fallback;
+        return value;
+    }
+};
+template<> inline std::string ConfigMgr::GetOption<std::string>(std::string const& key, std::string const& fallback) const {
+    auto it=options.find(key); return it == options.end() ? fallback : it->second;
+}
+#define sConfigMgr ConfigMgr::instance()
